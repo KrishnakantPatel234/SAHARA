@@ -1,5 +1,6 @@
-import { User, Phone, MapPin, AlertTriangle, Shield, Trash2, X } from "lucide-react";
+import { Shield, MapPin, Handshake, Users } from "lucide-react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 export default function Home() {
   return (

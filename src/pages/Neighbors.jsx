@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { User, Phone, MapPin, AlertTriangle, Shield, Trash2, X } from "lucide-react";
-import { AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+
 
 export default function Neighbors() {
   const [neighbors, setNeighbors] = useState([]);

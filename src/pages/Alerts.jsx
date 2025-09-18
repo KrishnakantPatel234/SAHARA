@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Card, CardContent } from "../components/ui/Card";
-import { User, Phone, MapPin, AlertTriangle, Shield, Trash2, X } from "lucide-react";
+import { User, Phone, MapPin, AlertTriangle, Shield, Trash2, X, Search, Info } from "lucide-react";
+import { motion } from "framer-motion";
 import {
   LineChart,
   Line,
