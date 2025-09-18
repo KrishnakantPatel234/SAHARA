@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Shield, Home, User, Phone, MapPin, Clock, MessageSquare } from "lucide-react";
+import { User, Phone, MapPin, AlertTriangle, Shield, Trash2, X } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function Sahayak() {

@@ -1,6 +1,6 @@
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { Card, CardContent } from "../components/ui/Card";
-import { MapPin, Users, Shield, Home, CheckCircle, AlertTriangle, XCircle } from "lucide-react";
+import { User, Phone, MapPin, AlertTriangle, Shield, Trash2, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import L from "leaflet";
 import { useState } from "react";

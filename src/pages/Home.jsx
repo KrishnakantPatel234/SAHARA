@@ -1,4 +1,4 @@
-import { Shield, MapPin, Users, Handshake } from "lucide-react";
+import { User, Phone, MapPin, AlertTriangle, Shield, Trash2, X } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function Home() {
