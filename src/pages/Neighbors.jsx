@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { User, Phone, MapPin, AlertTriangle, Shield, Trash2, X } from "lucide-react";
+import { User, Phone, MapPin, AlertTriangle, Menu, Shield, Trash2, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-
+import Footer from "../components/Footer";
 
 export default function Neighbors() {
   const [neighbors, setNeighbors] = useState([]);
@@ -57,6 +57,8 @@ export default function Neighbors() {
     }
   };
 
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <div className="flex flex-col min-h-screen relative">
       {/* ✅ Navbar */}
@@ -83,6 +85,36 @@ export default function Neighbors() {
                 <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-green-600 group-hover:w-full transition-all"></span>
               </motion.div>
             ))}
+            <AnimatePresence>
+              {isOpen && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.4, ease: "easeInOut" }}
+                  className="md:hidden bg-white/95 backdrop-blur-md shadow-md overflow-hidden"
+                >
+                  <nav className="flex flex-col items-center gap-4 py-4 text-lg font-medium text-gray-700">
+                    {["Home", "Alerts", "Safe Zones", "Neighbors"].map((item, idx) => (
+                      <motion.div
+                        key={idx}
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: idx * 0.1 }}
+                      >
+                        <Link
+                          to={item === "Home" ? "/" : `/${item.toLowerCase().replace(" ", "")}`}
+                          className="hover:text-green-700 transition"
+                          onClick={() => setIsOpen(false)} // close after click
+                        >
+                          {item}
+                        </Link>
+                      </motion.div>
+                    ))}
+                  </nav>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </nav>
 
           {/* ✅ Open Form Modal */}
@@ -240,16 +272,7 @@ export default function Neighbors() {
       </AnimatePresence>
 
       {/* ✅ Footer */}
-      <footer className="bg-green-700 text-white py-6 mt-8">
-        <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-sm">&copy; {new Date().getFullYear()} Disaster Management Project</p>
-          <nav className="flex gap-4 text-sm mt-3 md:mt-0">
-            <Link to="/alerts" className="hover:text-green-200">Alerts</Link>
-            <Link to="/safezones" className="hover:text-green-200">Safe Zones</Link>
-            <Link to="/neighbors" className="hover:text-green-200">Neighbors</Link>
-          </nav>
-        </div>
-      </footer>
+      < Footer />
     </div>
   );
 }

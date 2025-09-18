@@ -1,8 +1,15 @@
 import { useState } from "react";
-import { User, Phone, MapPin, Shield, Clock, MessageSquare } from "lucide-react";
+import {
+  User,
+  Phone,
+  MapPin,
+  Shield,
+  Clock,
+  MessageSquare,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-
+import Navbar from "../components/Navbar";
 export default function Sahayak() {
   const [formData, setFormData] = useState({
     name: "",
@@ -33,33 +40,7 @@ export default function Sahayak() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* ✅ Navbar */}
-      <header className="fixed top-0 left-0 w-full z-40 bg-white/30 backdrop-blur-md shadow-sm">
-              <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
-                <motion.h1
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6 }}
-                  className="text-2xl font-extrabold flex items-center gap-2 text-green-800"
-                >
-                  <Shield className="w-6 h-6 text-green-600" /> SAHARA
-                </motion.h1>
-      
-                <nav className="hidden md:flex gap-8 text-lg font-medium text-gray-700">
-                  {["Home", "Alerts", "Safe Zones", "Neighbors"].map((item, idx) => (
-                    <motion.div key={idx} whileHover={{ scale: 1.1 }} className="relative group">
-                      <Link
-                        to={item === "Home" ? "/" : `/${item.toLowerCase().replace(" ", "")}`}
-                        className="hover:text-green-700 transition"
-                      >
-                        {item}
-                      </Link>
-                      <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-green-600 group-hover:w-full transition-all"></span>
-                    </motion.div>
-                  ))}
-                </nav>
-              </div>
-            </header>
-
+      <Navbar />
       {/* ✅ Form Section */}
       <main className="flex-1 flex items-center justify-center bg-gradient-to-r from-green-50 via-blue-50 to-green-100 px-6 py-12">
         <div className="w-full max-w-2xl bg-white rounded-2xl shadow-xl border p-8 space-y-6">
@@ -67,7 +48,9 @@ export default function Sahayak() {
             🙌 Register as SAHAYAK
           </h2>
           <p className="text-center text-gray-600">
-            Fill out the form below to become a <span className="font-semibold text-green-700">SAHAYAK</span> and help during disasters.
+            Fill out the form below to become a{" "}
+            <span className="font-semibold text-green-700">SAHAYAK</span> and
+            help during disasters.
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-5">

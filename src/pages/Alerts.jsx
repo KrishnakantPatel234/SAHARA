@@ -1,8 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Card, CardContent } from "../components/ui/Card";
-import { User, Phone, MapPin, AlertTriangle, Shield, Trash2, X, Search, Info } from "lucide-react";
+import {
+  User,
+  Phone,
+  MapPin,
+  AlertTriangle,
+  Shield,
+  Trash2,
+  X,
+  Search,
+  Info,
+} from "lucide-react";
 import { motion } from "framer-motion";
+import Navbar from "../components/Navbar";
 import {
   LineChart,
   Line,
@@ -14,6 +25,7 @@ import {
   BarChart,
   Bar,
 } from "recharts";
+import Footer from "../components/Footer";
 
 export default function Alerts() {
   // Dummy alert data
@@ -88,33 +100,9 @@ export default function Alerts() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      {/* ✅ Navbar */}
-      <header className="fixed top-0 left-0 w-full z-40 bg-white/30 backdrop-blur-md shadow-sm">
-        <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
-          <motion.h1
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-2xl font-extrabold flex items-center gap-2 text-green-800"
-          >
-            <Shield className="w-6 h-6 text-green-600" /> SAHARA
-          </motion.h1>
+      {/*Navbar */}
 
-          <nav className="hidden md:flex gap-8 text-lg font-medium text-gray-700">
-            {["Home", "Alerts", "Safe Zones", "Neighbors"].map((item, idx) => (
-              <motion.div key={idx} whileHover={{ scale: 1.1 }} className="relative group">
-                <Link
-                  to={item === "Home" ? "/" : `/${item.toLowerCase().replace(" ", "")}`}
-                  className="hover:text-green-700 transition"
-                >
-                  {item}
-                </Link>
-                <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-green-600 group-hover:w-full transition-all"></span>
-              </motion.div>
-            ))}
-          </nav>
-        </div>
-      </header>
+      <Navbar />
 
       {/* ✅ Alerts Section */}
       <main className="flex-1 py-24 px-6 bg-gradient-to-r from-green-50 to-green-100">
@@ -126,13 +114,17 @@ export default function Alerts() {
         <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-8">
           <Card className="bg-red-50 border-l-8 border-red-400 shadow">
             <CardContent className="p-4 text-center">
-              <h3 className="font-bold text-red-700 text-2xl">{criticalCount}</h3>
+              <h3 className="font-bold text-red-700 text-2xl">
+                {criticalCount}
+              </h3>
               <p className="text-sm text-red-600">Critical Alerts</p>
             </CardContent>
           </Card>
           <Card className="bg-yellow-50 border-l-8 border-yellow-400 shadow">
             <CardContent className="p-4 text-center">
-              <h3 className="font-bold text-yellow-700 text-2xl">{warningCount}</h3>
+              <h3 className="font-bold text-yellow-700 text-2xl">
+                {warningCount}
+              </h3>
               <p className="text-sm text-yellow-600">Warnings</p>
             </CardContent>
           </Card>
@@ -190,8 +182,18 @@ export default function Alerts() {
                   <XAxis dataKey="day" />
                   <YAxis />
                   <Tooltip />
-                  <Line type="monotone" dataKey="rainfall" stroke="#2563eb" strokeWidth={3} />
-                  <Line type="monotone" dataKey="floodRisk" stroke="#dc2626" strokeWidth={3} />
+                  <Line
+                    type="monotone"
+                    dataKey="rainfall"
+                    stroke="#2563eb"
+                    strokeWidth={3}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="floodRisk"
+                    stroke="#dc2626"
+                    strokeWidth={3}
+                  />
                 </LineChart>
               </ResponsiveContainer>
             </CardContent>
@@ -219,11 +221,7 @@ export default function Alerts() {
       </main>
 
       {/* ✅ Footer */}
-      <footer className="bg-green-700 text-white py-4 mt-8">
-        <div className="max-w-6xl mx-auto px-6 flex justify-center">
-          <p className="text-sm">&copy; {new Date().getFullYear()} Disaster Management Project</p>
-        </div>
-      </footer>
+      < Footer />
     </div>
   );
 }
