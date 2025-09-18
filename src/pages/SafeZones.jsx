@@ -1,5 +1,5 @@
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import { Card, CardContent } from "../components/ui/card.jsx";
+import { Card, CardContent } from "../components/ui/Card";
 import {
   Shield,
   MapPin,

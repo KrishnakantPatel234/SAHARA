@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { User, Phone, MapPin, AlertTriangle, Menu, Shield, Trash2, X } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion , AnimatePresence } from "framer-motion";
 import Footer from "../components/Footer";
 
 export default function Neighbors() {

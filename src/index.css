@@ -3,7 +3,7 @@
 
   html, body, #root {
     height: 100%;
-    bg : #fffaeb;
+    background-color : #fffaeb;
   }
 
 /* 🔄 Gradient smoothly moving */
