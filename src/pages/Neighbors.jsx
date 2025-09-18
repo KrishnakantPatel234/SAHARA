@@ -136,9 +136,19 @@ export default function Neighbors() {
             <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Neighbor's Name" className="p-3 border rounded-lg focus:ring-2 focus:ring-green-400" />
             <input type="tel" name="phone" value={formData.phone} onChange={handleChange} placeholder="Phone Number" className="p-3 border rounded-lg focus:ring-2 focus:ring-green-400" />
             <input type="text" name="address" value={formData.address} onChange={handleChange} placeholder="Address (optional)" className="md:col-span-2 p-3 border rounded-lg focus:ring-2 focus:ring-green-400" />
-            <button type="submit" className="md:col-span-2 bg-green-700 hover:bg-green-800 text-white py-3 rounded-lg font-semibold transition transform hover:scale-105">
-              ➕ Add Neighbor
+            <button
+              type="submit"
+              className="md:col-span-2 flex items-center justify-center gap-2 
+                        bg-gradient-to-r from-green-600 to-emerald-600 
+                        hover:from-green-700 hover:to-emerald-700 
+                        text-white px-6 py-3 rounded-xl font-semibold shadow-lg 
+                        transition-all duration-300 transform hover:scale-105 hover:shadow-xl 
+                        active:scale-95"
+            >
+              <span className="text-lg">➕</span>
+              Add Neighbor
             </button>
+
           </form>
         </motion.div>
 
