@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Home, User, Phone, MapPin, Bell, AlertTriangle, Shield, Trash2 } from "lucide-react";
-import { motion } from "framer-motion";
+import { User, Phone, MapPin, AlertTriangle, Shield, Trash2, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Neighbors() {
   const [neighbors, setNeighbors] = useState([]);
@@ -30,7 +30,7 @@ export default function Neighbors() {
     }
     setNeighbors([...neighbors, { ...formData, id: Date.now() }]);
     setFormData({ name: "", phone: "", address: "" });
-    setShowForm(false); // hide form after adding
+    setShowForm(false); // close modal after adding
   };
 
   const removeNeighbor = (id) => {
@@ -57,9 +57,9 @@ export default function Neighbors() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen relative">
       {/* ✅ Navbar */}
-      <header className="fixed top-0 left-0 w-full z-50 bg-white/30 backdrop-blur-md shadow-sm">
+      <header className="fixed top-0 left-0 w-full z-40 bg-white/30 backdrop-blur-md shadow-sm">
         <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
           <motion.h1
             initial={{ opacity: 0, x: -20 }}
@@ -84,11 +84,11 @@ export default function Neighbors() {
             ))}
           </nav>
 
-          {/* ✅ Toggle Add Neighbor Form */}
+          {/* ✅ Open Form Modal */}
           <motion.button
             whileHover={{ scale: 1.05 }}
             className="hidden md:inline-block bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg shadow-md transition"
-            onClick={() => setShowForm(!showForm)}
+            onClick={() => setShowForm(true)}
           >
             ➕ Add Neighbor
           </motion.button>
@@ -96,12 +96,7 @@ export default function Neighbors() {
       </header>
 
       {/* ✅ Hero Section */}
-      <motion.section
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7 }}
-        className="bg-gradient-to-r mt-20 from-green-50 to-green-100 py-12 text-center"
-      >
+      <section className="mt-20 bg-gradient-to-r from-green-50 to-green-100 py-12 text-center">
         <h2 className="text-4xl font-extrabold text-green-800">👥 Know Your Neighbor</h2>
         <p className="mt-3 text-gray-700 max-w-2xl mx-auto">
           In times of disaster, your neighbors are your first line of support.
@@ -115,39 +110,10 @@ export default function Neighbors() {
         >
           <AlertTriangle className="w-5 h-5" /> Alert ALL Neighbors
         </motion.button>
-      </motion.section>
+      </section>
 
+      {/* ✅ Neighbor List */}
       <main className="flex-1 px-6 py-10 bg-white">
-        {/* ✅ Conditional Form */}
-        {showForm && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-            className="max-w-3xl mx-auto bg-green-50 p-6 rounded-xl shadow-lg space-y-6"
-          >
-            <h3 className="text-2xl font-bold text-green-700 text-center">➕ Add Your Neighbor</h3>
-            <form onSubmit={addNeighbor} className="grid gap-4 md:grid-cols-2">
-              <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Neighbor's Name" className="p-3 border rounded-lg focus:ring-2 focus:ring-green-400" />
-              <input type="tel" name="phone" value={formData.phone} onChange={handleChange} placeholder="Phone Number" className="p-3 border rounded-lg focus:ring-2 focus:ring-green-400" />
-              <input type="text" name="address" value={formData.address} onChange={handleChange} placeholder="Address (optional)" className="md:col-span-2 p-3 border rounded-lg focus:ring-2 focus:ring-green-400" />
-              <button
-                type="submit"
-                className="md:col-span-2 flex items-center justify-center gap-2 
-                          bg-gradient-to-r from-green-600 to-emerald-600 
-                          hover:from-green-700 hover:to-emerald-700 
-                          text-white px-6 py-3 rounded-xl font-semibold shadow-lg 
-                          transition-all duration-300 transform hover:scale-105 hover:shadow-xl 
-                          active:scale-95"
-              >
-                <span className="text-lg">➕</span>
-                Add Neighbor
-              </button>
-            </form>
-          </motion.div>
-        )}
-
-        {/* ✅ Neighbor List */}
         <section className="max-w-4xl mx-auto mt-10 grid gap-6 md:grid-cols-2">
           {neighbors.map((n) => (
             <motion.div
@@ -196,6 +162,81 @@ export default function Neighbors() {
           )}
         </section>
       </main>
+
+      {/* ✅ Modal Form */}
+      <AnimatePresence>
+        {showForm && (
+          <motion.div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-md relative"
+            >
+              {/* Close Button */}
+              <button
+                onClick={() => setShowForm(false)}
+                className="absolute top-3 right-3 text-gray-500 hover:text-red-600 transition"
+              >
+                <X className="w-6 h-6" />
+              </button>
+
+              <h3 className="text-2xl font-bold text-green-700 text-center mb-4">
+                ➕ Add Your Neighbor
+              </h3>
+
+              <form onSubmit={addNeighbor} className="grid gap-4">
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder="Neighbor's Name"
+                  className="p-3 border rounded-lg focus:ring-2 focus:ring-green-400"
+                />
+                <input
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  placeholder="Phone Number"
+                  className="p-3 border rounded-lg focus:ring-2 focus:ring-green-400"
+                />
+                <input
+                  type="text"
+                  name="address"
+                  value={formData.address}
+                  onChange={handleChange}
+                  placeholder="Address (optional)"
+                  className="p-3 border rounded-lg focus:ring-2 focus:ring-green-400"
+                />
+
+                <div className="flex gap-3 mt-2">
+                  <button
+                    type="submit"
+                    className="flex-1 bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-semibold transition"
+                  >
+                    Save
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setShowForm(false)}
+                    className="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 py-3 rounded-lg font-semibold transition"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* ✅ Footer */}
       <footer className="bg-green-700 text-white py-6 mt-8">
