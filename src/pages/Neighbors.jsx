@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Home, User, Phone, MapPin, Bell, AlertTriangle, Shield } from "lucide-react";
+import { Home, User, Phone, MapPin, Bell, AlertTriangle, Shield, Trash2 } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function Neighbors() {
   const [neighbors, setNeighbors] = useState([]);
   const [formData, setFormData] = useState({ name: "", phone: "", address: "" });
+  const [showForm, setShowForm] = useState(false);
 
   // Load from localStorage
   useEffect(() => {
@@ -29,6 +30,7 @@ export default function Neighbors() {
     }
     setNeighbors([...neighbors, { ...formData, id: Date.now() }]);
     setFormData({ name: "", phone: "", address: "" });
+    setShowForm(false); // hide form after adding
   };
 
   const removeNeighbor = (id) => {
@@ -56,10 +58,9 @@ export default function Neighbors() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      {/* ✅ Navbar (same as Home with animation) */}
+      {/* ✅ Navbar */}
       <header className="fixed top-0 left-0 w-full z-50 bg-white/30 backdrop-blur-md shadow-sm">
         <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
-          {/* ✅ Animated Logo */}
           <motion.h1
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -69,14 +70,9 @@ export default function Neighbors() {
             <Shield className="w-6 h-6 text-green-600" /> SAHARA
           </motion.h1>
 
-          {/* ✅ Navbar Links */}
           <nav className="hidden md:flex gap-8 text-lg font-medium text-gray-700">
             {["Home", "Alerts", "Safe Zones", "Neighbors"].map((item, idx) => (
-              <motion.div
-                key={idx}
-                whileHover={{ scale: 1.1 }}
-                className="relative group"
-              >
+              <motion.div key={idx} whileHover={{ scale: 1.1 }} className="relative group">
                 <Link
                   to={item === "Home" ? "/" : `/${item.toLowerCase().replace(" ", "")}`}
                   className="hover:text-green-700 transition"
@@ -88,13 +84,11 @@ export default function Neighbors() {
             ))}
           </nav>
 
-          {/* ✅ CTA Button */}
+          {/* ✅ Toggle Add Neighbor Form */}
           <motion.button
             whileHover={{ scale: 1.05 }}
             className="hidden md:inline-block bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg shadow-md transition"
-            onClick={() => {
-              document.getElementById("add-form")?.scrollIntoView({ behavior: "smooth" });
-            }}
+            onClick={() => setShowForm(!showForm)}
           >
             ➕ Add Neighbor
           </motion.button>
@@ -106,11 +100,11 @@ export default function Neighbors() {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7 }}
-        className="bg-gradient-to-r mt-5 from-green-50 to-green-100 py-12 text-center"
+        className="bg-gradient-to-r mt-20 from-green-50 to-green-100 py-12 text-center"
       >
         <h2 className="text-4xl font-extrabold text-green-800">👥 Know Your Neighbor</h2>
         <p className="mt-3 text-gray-700 max-w-2xl mx-auto">
-          In times of disaster, your neighbors are your first line of support. Add and connect with them for quick help and alerts.
+          In times of disaster, your neighbors are your first line of support.
         </p>
         <motion.button
           whileHover={{ scale: 1.05 }}
@@ -123,77 +117,84 @@ export default function Neighbors() {
         </motion.button>
       </motion.section>
 
-      {/* ✅ Form Section */}
       <main className="flex-1 px-6 py-10 bg-white">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
-          className="max-w-3xl mx-auto bg-green-50 p-6 rounded-xl shadow-lg space-y-6"
-        >
-          <h3 className="text-2xl font-bold text-green-700 text-center">➕ Add Your Neighbor</h3>
-          <form onSubmit={addNeighbor} className="grid gap-4 md:grid-cols-2">
-            <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Neighbor's Name" className="p-3 border rounded-lg focus:ring-2 focus:ring-green-400" />
-            <input type="tel" name="phone" value={formData.phone} onChange={handleChange} placeholder="Phone Number" className="p-3 border rounded-lg focus:ring-2 focus:ring-green-400" />
-            <input type="text" name="address" value={formData.address} onChange={handleChange} placeholder="Address (optional)" className="md:col-span-2 p-3 border rounded-lg focus:ring-2 focus:ring-green-400" />
-            <button
-              type="submit"
-              className="md:col-span-2 flex items-center justify-center gap-2 
-                        bg-gradient-to-r from-green-600 to-emerald-600 
-                        hover:from-green-700 hover:to-emerald-700 
-                        text-white px-6 py-3 rounded-xl font-semibold shadow-lg 
-                        transition-all duration-300 transform hover:scale-105 hover:shadow-xl 
-                        active:scale-95"
-            >
-              <span className="text-lg">➕</span>
-              Add Neighbor
-            </button>
-
-          </form>
-        </motion.div>
+        {/* ✅ Conditional Form */}
+        {showForm && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+            className="max-w-3xl mx-auto bg-green-50 p-6 rounded-xl shadow-lg space-y-6"
+          >
+            <h3 className="text-2xl font-bold text-green-700 text-center">➕ Add Your Neighbor</h3>
+            <form onSubmit={addNeighbor} className="grid gap-4 md:grid-cols-2">
+              <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Neighbor's Name" className="p-3 border rounded-lg focus:ring-2 focus:ring-green-400" />
+              <input type="tel" name="phone" value={formData.phone} onChange={handleChange} placeholder="Phone Number" className="p-3 border rounded-lg focus:ring-2 focus:ring-green-400" />
+              <input type="text" name="address" value={formData.address} onChange={handleChange} placeholder="Address (optional)" className="md:col-span-2 p-3 border rounded-lg focus:ring-2 focus:ring-green-400" />
+              <button
+                type="submit"
+                className="md:col-span-2 flex items-center justify-center gap-2 
+                          bg-gradient-to-r from-green-600 to-emerald-600 
+                          hover:from-green-700 hover:to-emerald-700 
+                          text-white px-6 py-3 rounded-xl font-semibold shadow-lg 
+                          transition-all duration-300 transform hover:scale-105 hover:shadow-xl 
+                          active:scale-95"
+              >
+                <span className="text-lg">➕</span>
+                Add Neighbor
+              </button>
+            </form>
+          </motion.div>
+        )}
 
         {/* ✅ Neighbor List */}
-        <motion.section
-  initial={{ opacity: 0, y: -20 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.7 }}
-  className="pt-28 bg-gradient-to-r from-green-50 to-green-100 pb-16 text-center"
->
-  <h2 className="text-4xl font-extrabold text-green-800">
-    👥 Know Your Neighbor
-  </h2>
-  <p className="mt-3 text-gray-700 max-w-2xl mx-auto">
-    Disasters strike without warning. Build your safety circle by adding trusted neighbors here.  
-    In critical moments, one tap can alert them all!
-  </p>
+        <section className="max-w-4xl mx-auto mt-10 grid gap-6 md:grid-cols-2">
+          {neighbors.map((n) => (
+            <motion.div
+              key={n.id}
+              whileHover={{ scale: 1.03 }}
+              className="bg-white p-5 rounded-xl shadow-md border flex flex-col gap-3"
+            >
+              <h4 className="text-xl font-bold text-green-700 flex items-center gap-2">
+                <User className="w-5 h-5 text-green-600" /> {n.name}
+              </h4>
+              <p className="flex items-center gap-2 text-gray-700">
+                <Phone className="w-4 h-4 text-green-500" /> {n.phone}
+              </p>
+              {n.address && (
+                <p className="flex items-center gap-2 text-gray-700">
+                  <MapPin className="w-4 h-4 text-green-500" /> {n.address}
+                </p>
+              )}
+              <div className="flex gap-3 mt-2">
+                <button
+                  onClick={() => callNeighbor(n.phone)}
+                  className="px-3 py-2 bg-green-600 text-white rounded-lg text-sm hover:bg-green-700 transition"
+                >
+                  📞 Call
+                </button>
+                <button
+                  onClick={() => alertNeighbor(n.name)}
+                  className="px-3 py-2 bg-yellow-500 text-white rounded-lg text-sm hover:bg-yellow-600 transition"
+                >
+                  🚨 Alert
+                </button>
+                <button
+                  onClick={() => removeNeighbor(n.id)}
+                  className="px-3 py-2 bg-red-600 text-white rounded-lg text-sm hover:bg-red-700 transition flex items-center gap-1"
+                >
+                  <Trash2 className="w-4 h-4" /> Remove
+                </button>
+              </div>
+            </motion.div>
+          ))}
 
-  {/* ✅ Quick Stats */}
-  <div className="mt-8 grid gap-6 md:grid-cols-3 max-w-4xl mx-auto">
-    <motion.div whileHover={{ scale: 1.05 }} className="bg-white/70 backdrop-blur-sm p-6 rounded-xl shadow-md">
-      <h3 className="text-xl font-bold text-green-700">🏠 Trusted Neighbors</h3>
-      <p className="text-gray-600 mt-2">Keep a list of nearby helpers you can rely on instantly.</p>
-    </motion.div>
-    <motion.div whileHover={{ scale: 1.05 }} className="bg-white/70 backdrop-blur-sm p-6 rounded-xl shadow-md">
-      <h3 className="text-xl font-bold text-green-700">🚨 One-Click Alerts</h3>
-      <p className="text-gray-600 mt-2">Send emergency alerts to individuals or all neighbors at once.</p>
-    </motion.div>
-    <motion.div whileHover={{ scale: 1.05 }} className="bg-white/70 backdrop-blur-sm p-6 rounded-xl shadow-md">
-      <h3 className="text-xl font-bold text-green-700">📊 Safety Network</h3>
-      <p className="text-gray-600 mt-2">Build a connected safety net before disasters even occur.</p>
-    </motion.div>
-  </div>
-
-  {/* ✅ Alert Button */}
-  <motion.button
-    whileHover={{ scale: 1.05 }}
-    animate={{ scale: [1, 1.1, 1] }}
-    transition={{ repeat: Infinity, duration: 1.5 }}
-    onClick={alertAllNeighbors}
-    className="mt-10 bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-bold flex items-center gap-2 mx-auto shadow-md"
-  >
-    <AlertTriangle className="w-5 h-5" /> Alert ALL Neighbors
-  </motion.button>
-</motion.section>
+          {neighbors.length === 0 && (
+            <p className="text-center text-gray-500 col-span-2">
+              No neighbors added yet. Click ➕ Add Neighbor to start.
+            </p>
+          )}
+        </section>
       </main>
 
       {/* ✅ Footer */}
