@@ -52,22 +52,22 @@ export default function Home() {
         
        <div className="mt-8 flex flex-wrap justify-center gap-4">
           <Link to="/alerts">
-            <button className="px-6 py-3 rounded-2xl bg-emerald-50 text-emerald-700 border border-emerald-600 font-semibold shadow-md hover:bg-emerald-500 hover:text-white hover:shadow-lg transition duration-200">
+            <button className="px-6 py-3 cursor-pointer rounded-2xl bg-emerald-50 text-emerald-700 border border-emerald-600 font-semibold shadow-md hover:bg-emerald-500 hover:text-white hover:shadow-lg transition duration-200">
               View Alerts
             </button>
           </Link>
           <Link to="/safezones">
-            <button className="px-6 py-3 rounded-2xl bg-emerald-50 text-emerald-700 border border-emerald-600 font-semibold shadow-md hover:bg-emerald-500 hover:text-white hover:shadow-lg transition duration-200">
+            <button className="px-6 py-3  cursor-pointer rounded-2xl bg-emerald-50 text-emerald-700 border border-emerald-600 font-semibold shadow-md hover:bg-emerald-500 hover:text-white hover:shadow-lg transition duration-200">
               Find Safe Zones
             </button>
           </Link>
           <Link to="/sahayak">
-            <button className="px-6 py-3 rounded-2xl bg-emerald-50 text-emerald-700 border border-emerald-600 font-semibold shadow-md hover:bg-emerald-500 hover:text-white  hover:shadow-lg transition duration-200">
+            <button className="px-6 py-3 cursor-pointer  rounded-2xl bg-emerald-50 text-emerald-700 border border-emerald-600 font-semibold shadow-md hover:bg-emerald-500 hover:text-white  hover:shadow-lg transition duration-200">
               Join as SAHAYAK
             </button>
           </Link>
           <Link to="/neighbors">
-            <button className="px-6 py-3 rounded-2xl bg-emerald-50 text-emerald-700 border border-emerald-600 font-semibold shadow-md hover:bg-emerald-500 hover:text-white hover:shadow-lg transition duration-200">
+            <button className="px-6 py-3 cursor-pointer  rounded-2xl bg-emerald-50 text-emerald-700 border border-emerald-600 font-semibold shadow-md hover:bg-emerald-500 hover:text-white hover:shadow-lg transition duration-200">
               Know Your Neighbor
             </button>
           </Link>

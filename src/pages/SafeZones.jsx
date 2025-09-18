@@ -1,5 +1,5 @@
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import { Card, CardContent } from "../components/ui/card";
+import { Card, CardContent } from "../components/ui/card.jsx";
 import { Shield, MapPin, AlertTriangle, Users, CheckCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
