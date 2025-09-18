@@ -6,17 +6,73 @@ import {
   Phone,
   AlertTriangle,
 } from "lucide-react";
+import { useEffect , useState } from "react";
+import { auth, db } from "../firebase";
+import { doc, setDoc } from "firebase/firestore";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { motion, AnimatePresence } from "framer-motion";
+
 
 export default function Home() {
+  const [showMsg, setShowMsg] = useState(true);
+  const [locationStatus, setLocationStatus] = useState("Requesting location...");
+
+  useEffect(() => {
+    if (auth.currentUser) {
+      navigator.geolocation.getCurrentPosition(
+        async (pos) => {
+          const { latitude, longitude } = pos.coords;
+
+          // Firestore me save kar do
+          await setDoc(doc(db, "locations", auth.currentUser.uid), {
+            lat: latitude,
+            lng: longitude,
+            timestamp: Date.now(),
+          });
+
+          setLocationStatus("✅ Location access granted");
+        },
+        (err) => {
+          console.error("Location error:", err);
+          setLocationStatus("❌ Location permission denied");
+        }
+      );
+    }
+
+    // 5 sec baad message hide
+    const timer = setTimeout(() => {
+      setShowMsg(false);
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, []);
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-b from-emerald-50 via-white to-emerald-100">
       {/* 🌐 Navbar */}
       <Navbar />
       {/* 🌟 Hero Section */}
+       <div className="p-15">
+        <AnimatePresence>
+          {showMsg && (
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -50 }}
+              transition={{ duration: 0.6 }}
+              className="bg-gradient-to-r from-blue-50 to-indigo-100 border border-indigo-200 
+                        text-indigo-800 px-6 py-4 rounded-2xl shadow-lg"
+            >
+              <h1 className="text-xl font-bold mb-1">
+                Welcome {auth.currentUser?.email}
+              </h1>
+              <p className="text-sm">{locationStatus}</p>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    
       <section className="flex flex-col items-center justify-center text-center px-6 py-16 md:py-24 relative">
         <h2 className="text-5xl md:text-6xl font-extrabold text-emerald-800 leading-tight drop-shadow-sm">
           Disaster Management <span className="text-emerald-600">System</span>
