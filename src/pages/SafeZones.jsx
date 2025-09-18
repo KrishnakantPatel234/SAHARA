@@ -68,18 +68,32 @@ export default function SafeZones() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* ✅ Navbar */}
-      <header className="w-full fixed top-0 left-0 z-50 bg-white/20 backdrop-blur-md shadow-md">
-        <div className="max-w-7xl mx-auto flex items-center justify-between p-4">
-          <h1 className="text-2xl md:text-3xl font-extrabold bg-gradient-to-r from-green-500 via-blue-500 to-teal-500 bg-clip-text text-transparent animate-gradient-move flex items-center gap-2">
-            <Shield className="w-6 h-6" /> SAHARA SafeZones
-          </h1>
-          <nav>
-            <Link to="/" className="hover:text-green-600 flex items-center gap-1 text-lg transition">
-              <Home className="w-5 h-5" /> Home
-            </Link>
-          </nav>
-        </div>
-      </header>
+      <header className="fixed top-0 left-0 w-full z-40 bg-white/30 backdrop-blur-md shadow-sm">
+              <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+                <motion.h1
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6 }}
+                  className="text-2xl font-extrabold flex items-center gap-2 text-green-800"
+                >
+                  <Shield className="w-6 h-6 text-green-600" /> SAHARA
+                </motion.h1>
+      
+                <nav className="hidden md:flex gap-8 text-lg font-medium text-gray-700">
+                  {["Home", "Alerts", "Safe Zones", "Neighbors"].map((item, idx) => (
+                    <motion.div key={idx} whileHover={{ scale: 1.1 }} className="relative group">
+                      <Link
+                        to={item === "Home" ? "/" : `/${item.toLowerCase().replace(" ", "")}`}
+                        className="hover:text-green-700 transition"
+                      >
+                        {item}
+                      </Link>
+                      <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-green-600 group-hover:w-full transition-all"></span>
+                    </motion.div>
+                  ))}
+                </nav>
+              </div>
+            </header>
 
       {/* ✅ Content */}
       <main className="flex-1 p-6 max-w-7xl mx-auto space-y-10 pt-24">

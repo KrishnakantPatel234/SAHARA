@@ -5,23 +5,32 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-b from-emerald-50 via-white to-emerald-100">
       {/* 🌐 Navbar */}
-      <header className="w-full fixed top-0 left-0 z-50 bg-white/20 backdrop-blur-md shadow-md">
-        <div className="max-w-7xl mx-auto flex items-center justify-between p-4">
-          
-          {/* 🌟 Modern Animated Logo */}
-          <h1 className="text-3xl font-extrabold bg-gradient-to-r from-green-400 via-emerald-500 to-teal-400 bg-clip-text text-transparent animate-gradient-move">
-            SAHARA
-          </h1>
-
-          <nav className="hidden md:flex gap-6 text-lg font-medium">
-            <Link to="/" className="hover:text-green-200 transition">Home</Link>
-            <Link to="/alerts" className="hover:text-green-200 transition">Alerts</Link>
-            <Link to="/safezones" className="hover:text-green-200 transition">Safe Zones</Link>
-            <Link to="/neighbors" className="hover:text-green-200 transition">Know Your Neighbor</Link>
-          </nav>
-        </div>
-      </header>
-
+      <header className="fixed top-0 left-0 w-full z-40 bg-white/30 backdrop-blur-md shadow-sm">
+              <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+                <motion.h1
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6 }}
+                  className="text-2xl font-extrabold flex items-center gap-2 text-green-800"
+                >
+                  <Shield className="w-6 h-6 text-green-600" /> SAHARA
+                </motion.h1>
+      
+                <nav className="hidden md:flex gap-8 text-lg font-medium text-gray-700">
+                  {["Home", "Alerts", "Safe Zones", "Neighbors"].map((item, idx) => (
+                    <motion.div key={idx} whileHover={{ scale: 1.1 }} className="relative group">
+                      <Link
+                        to={item === "Home" ? "/" : `/${item.toLowerCase().replace(" ", "")}`}
+                        className="hover:text-green-700 transition"
+                      >
+                        {item}
+                      </Link>
+                      <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-green-600 group-hover:w-full transition-all"></span>
+                    </motion.div>
+                  ))}
+                </nav>
+              </div>
+            </header>
       {/* 🌟 Hero Section */}
       <section className="flex flex-col items-center justify-center text-center px-6 py-16 md:py-24 relative">
         <h2 className="text-5xl md:text-6xl font-extrabold text-emerald-800 leading-tight drop-shadow-sm">
